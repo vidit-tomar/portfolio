@@ -1,172 +1,494 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vidit Tomar</title>
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='25' fill='%232B2927'/><text x='50' y='68' font-family='Georgia, serif' font-size='50' font-style='italic' fill='%23F7F4EF' text-anchor='middle'>VT</text></svg>">
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&family=Plus+Jakarta+Sans:wght@300;400;500&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --bg-beige: #F7F4EF;
-            --card-bg: #FFFFFF;
-            --text-primary: #2B2927;
-            --text-muted: #78726D;
-            --accent-subtle: #EFECE6;
-            --border-color: #E6E1D8;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vidit Tomar</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='25' fill='%232B2927'/><text x='50' y='68' font-family='Georgia, serif' font-size='50' font-style='italic' fill='%23F7F4EF' text-anchor='middle'>VT</text></svg>">
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
+  
+  <!-- Aesthetic Typography: Cormorant Garamond & Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&family=Plus+Jakarta+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 
-        body {
-            background-color: var(--bg-beige);
-            color: var(--text-primary);
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
-            position: relative;
-        }
+  <style>
+    :root {
+      /* Warm Aesthetic Beige Palette */
+      --bg-color: #f4efe6;
+      --text-primary: #26231e;
+      --text-secondary: #787166;
+      --border-color: #e2dacd;
+      --surface-color: #ebe4d8;
+      --status-dot: #5c7c54;
+    }
 
-        /* Subtle background texture */
-        body::before {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-image: radial-gradient(rgba(0, 0, 0, 0.025) 1px, transparent 0);
-            background-size: 28px 28px;
-            pointer-events: none;
-        }
+    [data-theme="dark"] {
+      /* Warm Charcoal Dark Mode */
+      --bg-color: #161514;
+      --text-primary: #ede8df;
+      --text-secondary: #8f887d;
+      --border-color: #292724;
+      --surface-color: #1f1d1b;
+      --status-dot: #7fa676;
+    }
 
-        .container {
-            text-align: center;
-            padding: 2rem;
-            max-width: 540px;
-            width: 90%;
-            position: relative;
-            animation: fadeIn 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-            opacity: 0;
-            transform: translateY(10px);
-        }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
-        @keyframes fadeIn {
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
+    body {
+      background-color: var(--bg-color);
+      color: var(--text-primary);
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      line-height: 1.7;
+      font-weight: 300;
+      transition: background-color 0.4s ease, color 0.4s ease;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 3rem 1.75rem;
+      max-width: 640px;
+      margin: 0 auto;
+      -webkit-font-smoothing: antialiased;
+    }
 
-        .card {
-            background: rgba(255, 255, 255, 0.65);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid var(--border-color);
-            border-radius: 24px;
-            padding: 3.5rem 2.5rem;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.02);
-        }
+    /* Header & Theme Toggle */
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      animation: fadeIn 1s ease-out forwards;
+    }
 
-        .status-pill {
-            display: inline-block;
-            font-size: 0.7rem;
-            text-transform: uppercase;
-            letter-spacing: 0.2em;
-            color: var(--text-muted);
-            background-color: var(--accent-subtle);
-            padding: 0.45rem 1.1rem;
-            border-radius: 50px;
-            margin-bottom: 2rem;
-            font-weight: 500;
-        }
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.55rem;
+      font-size: 0.75rem;
+      letter-spacing: 0.03em;
+      color: var(--text-secondary);
+      border: 1px solid var(--border-color);
+      padding: 0.35rem 0.85rem;
+      border-radius: 999px;
+      background-color: var(--surface-color);
+    }
 
-        h1 {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: clamp(2.2rem, 4vw, 2.8rem);
-            font-weight: 400;
-            line-height: 1.2;
-            margin-bottom: 1rem;
-            color: var(--text-primary);
-        }
+    .status-dot {
+      width: 6px;
+      height: 6px;
+      background-color: var(--status-dot);
+      border-radius: 50%;
+    }
 
-        p {
-            font-size: 0.95rem;
-            font-weight: 300;
-            color: var(--text-muted);
-            line-height: 1.7;
-            margin-bottom: 2.5rem;
-        }
+    .theme-toggle {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      background: var(--surface-color);
+      border: 1px solid var(--border-color);
+      color: var(--text-secondary);
+      cursor: pointer;
+      padding: 0.55rem 0.9rem;
+      border-radius: 999px;
+      font-size: 0.75rem;
+      letter-spacing: 0.03em;
+      font-family: inherit;
+      box-shadow: 0 2px 8px rgba(38, 35, 30, 0.04);
+      transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, transform 0.25s ease, box-shadow 0.25s ease;
+    }
 
-        .contact-section {
-            border-top: 1px solid var(--border-color);
-            padding-top: 1.75rem;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 0.6rem;
-        }
+    .theme-toggle:hover {
+      color: var(--text-primary);
+      border-color: var(--text-secondary);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(38, 35, 30, 0.08);
+    }
 
-        .contact-label {
-            font-size: 0.8rem;
-            letter-spacing: 0.05em;
-            color: var(--text-muted);
-            font-weight: 400;
-            text-transform: uppercase;
-        }
+    .theme-toggle svg {
+      width: 14px;
+      height: 14px;
+      flex: 0 0 auto;
+    }
 
-        .contact-email {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 1.35rem;
-            font-style: italic;
-            color: var(--text-primary);
-            text-decoration: none;
-            transition: opacity 0.2s ease;
-            position: relative;
-        }
+    /* Main Content */
+    main {
+      margin: auto 0;
+      padding: 3rem 0;
+      animation: fadeUp 1s ease-out forwards;
+    }
 
-        .contact-email::after {
-            content: '';
-            position: absolute;
-            width: 100%;
-            height: 1px;
-            bottom: -2px;
-            left: 0;
-            background-color: var(--text-primary);
-            opacity: 0.3;
-            transition: opacity 0.2s ease;
-        }
+    h1 {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-size: clamp(3rem, 7vw, 4.5rem);
+      font-weight: 400;
+      line-height: 1.05;
+      letter-spacing: -0.01em;
+      margin-bottom: 1.5rem;
+    }
 
-        .contact-email:hover {
-            opacity: 0.7;
-        }
+    h1 span {
+      font-style: italic;
+      font-weight: 400;
+      color: var(--text-secondary);
+    }
 
-        .contact-email:hover::after {
-            opacity: 1;
-        }
-    </style>
+    .bio {
+      font-size: 1rem;
+      color: var(--text-secondary);
+      max-width: 480px;
+      margin-bottom: 2.75rem;
+      letter-spacing: 0.01em;
+    }
+
+    /* Minimalist Links & Actions */
+    .links-container {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.85rem;
+    }
+
+    .email-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.35rem 0.45rem 0.35rem 1rem;
+      border: 1px solid var(--border-color);
+      border-radius: 999px;
+      background: transparent;
+      transition: background-color 0.25s ease, border-color 0.25s ease, transform 0.25s ease;
+    }
+
+    .email-pill:hover {
+      background-color: var(--surface-color);
+      border-color: var(--text-secondary);
+    }
+
+    .email-address {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.55rem;
+      color: var(--text-primary);
+      text-decoration: none;
+      font-size: 0.85rem;
+      font-weight: 400;
+      letter-spacing: 0.02em;
+    }
+
+    .email-copy-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 32px;
+      height: 32px;
+      flex: 0 0 32px;
+      padding: 0;
+      border: 1px solid transparent;
+      border-radius: 50%;
+      background: transparent;
+      color: var(--text-secondary);
+      cursor: pointer;
+      position: relative;
+      transition: background-color 0.25s ease, color 0.25s ease, border-color 0.25s ease;
+    }
+
+    .email-copy-btn:hover {
+      background: var(--bg-color);
+      border-color: var(--border-color);
+      color: var(--text-primary);
+    }
+
+    .email-copy-btn .icon-copy,
+    .email-copy-btn .icon-check {
+      position: absolute;
+      transition: opacity 0.25s ease, transform 0.25s ease;
+    }
+
+    .email-copy-btn .icon-copy {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    .email-copy-btn .icon-check {
+      opacity: 0;
+      transform: scale(0.5);
+      color: var(--status-dot);
+    }
+
+    .email-copy-btn.copied .icon-copy {
+      opacity: 0;
+      transform: scale(0.5);
+    }
+
+    .email-copy-btn.copied .icon-check {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      text-decoration: none;
+      font-size: 0.85rem;
+      font-weight: 400;
+      letter-spacing: 0.02em;
+      padding: 0.65rem 1.35rem;
+      border-radius: 999px;
+      transition: all 0.25s ease;
+      cursor: pointer;
+      font-family: inherit;
+    }
+
+    .btn-primary {
+      background-color: var(--text-primary);
+      color: var(--bg-color);
+      border: 1px solid var(--text-primary);
+    }
+
+    .btn-primary:hover {
+      opacity: 0.85;
+      transform: translateY(-1px);
+    }
+
+    .btn-secondary {
+      background-color: transparent;
+      color: var(--text-primary);
+      border: 1px solid var(--border-color);
+    }
+
+    .btn-secondary:hover {
+      background-color: var(--surface-color);
+      transform: translateY(-1px);
+    }
+
+    /* Aesthetic Copy Button Refinements */
+    .btn-copy {
+      position: relative;
+      width: 44px;
+      min-width: 44px;
+      padding: 0.65rem;
+      justify-content: center;
+      gap: 0;
+    }
+
+    .btn-copy .email-label {
+      transition: opacity 0.2s ease;
+    }
+
+    .icon-wrapper {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      width: 14px;
+      height: 14px;
+      color: var(--text-secondary);
+      transition: color 0.25s ease;
+    }
+
+    .btn-copy:hover .icon-wrapper {
+      color: var(--text-primary);
+    }
+
+    .icon-copy,
+    .icon-check {
+      position: absolute;
+      transition: opacity 0.25s cubic-bezier(0.16, 1, 0.3, 1), transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .icon-copy {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    .icon-check {
+      opacity: 0;
+      transform: scale(0.5);
+      color: var(--status-dot);
+    }
+
+    /* Active "Copied" State */
+    .btn-copy.copied {
+      border-color: var(--status-dot);
+      background-color: var(--surface-color);
+    }
+
+    .btn-copy.copied .icon-copy {
+      opacity: 0;
+      transform: scale(0.5);
+    }
+
+    .btn-copy.copied .icon-check {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    /* Footer */
+    footer {
+      padding-top: 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.75rem;
+      letter-spacing: 0.02em;
+      color: var(--text-secondary);
+      border-top: 1px solid var(--border-color);
+      animation: fadeIn 1.2s ease-out forwards;
+    }
+
+    /* Subtle Animations */
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(14px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @media (max-width: 480px) {
+      body {
+        padding: 2rem 1.25rem;
+      }
+      footer {
+        flex-direction: column;
+        gap: 0.5rem;
+        align-items: flex-start;
+      }
+    }
+  </style>
 </head>
 <body>
 
-    <div class="container">
-        <div class="card">
-            <div class="status-pill">Portfolio &amp; Space</div>
-            <h1>Thanks for stopping by.</h1>
-            <p>I'm currently revamping my personal corner of the internet. It'll be live soon with a few things I've been working on.</p>
-            
-            <div class="contact-section">
-                <span class="contact-label">Reach out on</span>
-                <a href="mailto:hi@vidittomar.com" class="contact-email">hi@vidittomar.com</a>
-            </div>
-        </div>
+  <!-- Top Bar -->
+  <header>
+    <div class="status-badge">
+      <span class="status-dot"></span>
+      <span>Available for conversations</span>
     </div>
+    <button class="theme-toggle" id="themeToggle" aria-label="Switch to dark theme" title="Switch theme">
+      <svg id="themeIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M20.5 14.2A8.5 8.5 0 0 1 9.8 3.5 8.5 8.5 0 1 0 20.5 14.2Z"></path>
+      </svg>
+      <span id="themeLabel">Dark mode</span>
+    </button>
+  </header>
 
+  <!-- Main Landing Section -->
+  <main>
+    <h1>Vidit Tomar.<br><span>In the making.</span></h1>
+    
+    <p class="bio">
+      A quiet space on the internet, currently taking shape. Until then, you can find me or reach out directly below.
+    </p>
+
+    <!-- Contact & Social Links -->
+    <div class="links-container">
+      <!-- Replace with your LinkedIn URL -->
+      <a href="https://www.linkedin.com/in/vidit-tomar" target="_blank" rel="noopener noreferrer" class="btn btn-primary">
+        <span>LinkedIn</span>
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="7" y1="17" x2="17" y2="7"></line>
+          <polyline points="7 7 17 7 17 17"></polyline>
+        </svg>
+      </a>
+
+      <!-- Unified Email Pill with Copy Icon -->
+      <div class="email-pill">
+        <a href="mailto:hi@vidittomar.com" class="email-address" aria-label="Send email to hi@vidittomar.com">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <rect x="3" y="5" width="18" height="14" rx="2"></rect>
+            <path d="m3 7 9 6 9-6"></path>
+          </svg>
+          <span>hi@vidittomar.com</span>
+        </a>
+        <button class="email-copy-btn" id="copyEmailBtn" data-email="hi@vidittomar.com" aria-label="Copy email address" title="Copy email address">
+          <svg class="icon-copy" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+          </svg>
+          <svg class="icon-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <polyline points="20 6 9 17 4 12"></polyline>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <div>© <span id="year"></span> Vidit Tomar</div>
+    <div id="localTime"></div>
+  </footer>
+
+  <!-- Minimal JavaScript -->
+  <script>
+    // 1. Set current copyright year
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // 2. Dark / Light Mode Toggle (Defaults to Warm Beige Light Mode)
+    const themeToggle = document.getElementById('themeToggle');
+    const root = document.documentElement;
+
+    themeToggle.addEventListener('click', () => {
+      const isDark = root.getAttribute('data-theme') === 'dark';
+      const themeIcon = document.getElementById('themeIcon');
+      const themeLabel = document.getElementById('themeLabel');
+
+      if (isDark) {
+        root.removeAttribute('data-theme');
+        themeLabel.textContent = 'Dark mode';
+        themeToggle.setAttribute('aria-label', 'Switch to dark theme');
+        themeIcon.innerHTML = '<path d="M20.5 14.2A8.5 8.5 0 0 1 9.8 3.5 8.5 8.5 0 1 0 20.5 14.2Z"></path>';
+      } else {
+        root.setAttribute('data-theme', 'dark');
+        themeLabel.textContent = 'Light mode';
+        themeToggle.setAttribute('aria-label', 'Switch to light theme');
+        themeIcon.innerHTML = '<circle cx="12" cy="12" r="4"></circle><path d="M12 2v2m0 16v2M4.93 4.93l1.42 1.42m11.3 11.3 1.42 1.42M2 12h2m16 0h2M4.93 19.07l1.42-1.42m11.3-11.3 1.42-1.42"></path>';
+      }
+    });
+
+    // 3. Aesthetic Copy Email to Clipboard
+    const copyBtn = document.getElementById('copyEmailBtn');
+    let copyTimeout;
+
+    copyBtn.addEventListener('click', () => {
+      const email = copyBtn.getAttribute('data-email');
+      navigator.clipboard.writeText(email).then(() => {
+        clearTimeout(copyTimeout);
+        copyBtn.classList.add('copied');
+        copyBtn.setAttribute('title', 'Copied to clipboard');
+        copyBtn.setAttribute('aria-label', 'Email address copied');
+
+        copyTimeout = setTimeout(() => {
+          copyBtn.classList.remove('copied');
+          copyBtn.setAttribute('title', 'Copy email address');
+          copyBtn.setAttribute('aria-label', 'Copy email address');
+        }, 2000);
+      });
+    });
+
+    // 4. Subtle Live Clock in Footer
+    function updateClock() {
+      const now = new Date();
+      const timeString = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+      document.getElementById('localTime').textContent = timeString;
+    }
+    updateClock();
+    setInterval(updateClock, 10000);
+  </script>
 </body>
 </html>
